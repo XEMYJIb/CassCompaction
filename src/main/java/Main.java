@@ -19,8 +19,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         String host = "127.0.0.1";
         int jmxPort = 7299;
-        String yaml = "file:/Users/Anton/Programs/dse-4.6.5/resources/cassandra/conf/cassandra.yaml";
-
+        //todo:console arguments
         SortedMap<Long, String> trace = Maps.newTreeMap();
         CassandraDao cassandraDao = null;
         NodeTool nodeTool = null;
@@ -29,18 +28,16 @@ public class Main {
             printStep("INIT");
             cassandraDao = new CassandraDao(host);
             nodeTool = new NodeToolv1(host, jmxPort);
-            SSTable2Json ssTable2Json = new SSTable2Json(yaml);
+            SSTable2Json ssTable2Json = args.length == 1 ? new SSTable2Json(args[0]) : new SSTable2Json();
             cassandraDao.showCompactionHistory(trace);
 
-            //init check
             addToTrace(trace, "1");
             ssTable2Json.exportSST2Json(trace);
             cassandraDao.readThrough(trace);
 
             addToTrace(trace, "2");
-            //start write with ttl
+            //todo:optimize write block
             logger.info("Write with ttl ...");
-
             for (int i = 0; i < 3000; i++) {
                 if (i > 0 && i % 500 == 0) {
                     logger.info("Writes: " + i);
@@ -59,6 +56,7 @@ public class Main {
             cassandraDao.showCompactionHistory(trace);
 
             addToTrace(trace, "4");
+            //todo:optimize write block
             logger.info("Write without ttl ...");
             for (int i = 0; i < 3000; i++) {
                 if (i > 0 && i % 500 == 0) {
@@ -79,11 +77,15 @@ public class Main {
             cassandraDao.showCompactionHistory(trace);
         } finally {
             print(trace);
-            //check directory
+            //todo:check directory
             close(nodeTool, cassandraDao);
         }
 
         printStep("EXIT");
+
+        //todo:optimize exit
+        //from main method of tools
+        System.exit(0);
     }
 
     private static void print(Map<Long, String> trace) {

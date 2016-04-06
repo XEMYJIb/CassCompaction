@@ -15,22 +15,22 @@ public interface Configuration {
     String USE = "use " + KEY_SPACE + ";";
 
     String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (\n" +
-    "    eve text,\n" +
-    "    eTime timestamp,\n" +
-    "    longN bigint,\n" +
-    "    intN int,\n" +
-    "    load bigint,\n" +
-    "    PRIMARY KEY((eve), eTime, longN)\n" +
-    ") WITH compaction = {'class': 'DateTieredCompactionStrategy'} AND gc_grace_seconds = 100;";
+            "    eve text,\n" +
+            "    eTime timestamp,\n" +
+            "    longN bigint,\n" +
+            "    intN int,\n" +
+            "    load bigint,\n" +
+            "    PRIMARY KEY((eve), eTime, longN)\n" +
+            ") WITH compaction = {'class': 'DateTieredCompactionStrategy'} AND gc_grace_seconds = 100;";
 
     String WRITE_WITH_TTL = "INSERT INTO " + KEY_SPACE + "." + TABLE_NAME + "\n" +
-    "(eve, eTime, longN, intN, load)\n" +
-    "VALUES ( %s, '%s', %s , %s, %s)\n" +
-    " USING TTL %d;";
+            "(eve, eTime, longN, intN, load)\n" +
+            "VALUES ( %s, '%s', %s , %s, %s)\n" +
+            " USING TTL %d;";
 
     String WRITE_WO_TTL = "INSERT INTO " + KEY_SPACE + "." + TABLE_NAME + "\n" +
-    "(eve, eTime, longN, intN, load)\n" +
-    "VALUES ( %s, '%s', %s , %s, %s);";
+            "(eve, eTime, longN, intN, load)\n" +
+            "VALUES ( %s, '%s', %s , %s, %s);";
 
     String COMP_HISTORY = "SELECT * FROM system.compaction_history;";
     String SELECT = "SELECT * FROM " + KEY_SPACE + "." + TABLE_NAME + ";";

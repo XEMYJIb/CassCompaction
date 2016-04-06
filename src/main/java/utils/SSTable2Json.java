@@ -91,7 +91,7 @@ public class SSTable2Json {
             }
         }
 
-        if(files.isEmpty()) {
+        if (files.isEmpty()) {
             logger.info("No Data SSTables");
         }
 
@@ -99,7 +99,8 @@ public class SSTable2Json {
     }
 
     //The output is:{ROW_KEY:{[[COLUMN_NAME, COLUMN_VALUE, COLUMN_TIMESTAMP, IS_MARKED_FOR_DELETE],[COLUMN_NAME, ... ],...]},ROW_KEY:{...},...}
-
+    //e-ttl, d-tombstones, t-tombstones, delete row.
+    //todo:check row tombstones
     private void workWithJson(String ssTable, Map<Long, String> trace) throws JSONException {
         JSONArray array = new JSONArray(ssTable);
 
@@ -118,7 +119,7 @@ public class SSTable2Json {
                 if (column.length() > 3) {
                     String value = column.get(3).toString();
                     Integer count = result.get(value);
-                    if(count == null) {
+                    if (count == null) {
                         result.put(value, 1);
                     } else {
                         result.put(value, ++count);
@@ -127,10 +128,10 @@ public class SSTable2Json {
             }
         }
 
-        if(!result.isEmpty()) {
+        if (!result.isEmpty()) {
             trace.put(System.currentTimeMillis(), result.toString());
         } else {
-            trace.put(System.currentTimeMillis(), "no tombsones");
+            trace.put(System.currentTimeMillis(), "no tombstones");
         }
     }
 }
