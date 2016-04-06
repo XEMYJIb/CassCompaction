@@ -1,0 +1,10 @@
+target/
+.idea
+*.iml
+*.log
+*.DS_Store
+
+# Eclipse files to ignore
+.project
+.settings/
+.classpath
