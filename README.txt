@@ -1,6 +1,17 @@
 # CassCompaction
 
-Example of result:
+Intended use - investigate compaction process.
+
+For example:
+1) Write batches of records(ex:~95000 records per batch; 10 batches ) with TTL. Initialize compaction(ex:write records without TTL) after ttl+gc_grace_seconds time.
+  a. Check how many time need for processing such data.
+  b. How such compaction process affects hardware(with using external hardware monitoring tools).
+
+2) Visualize compaction process for different compaction strategies. 
+For example:
+Initialise some compaction process and check it progress by calling info methods.
+
+Example of work:
 
 1)
 ---------------------------TRACE------------------------------
